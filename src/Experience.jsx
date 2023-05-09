@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import Room from "./Room";
 import { OrbitControls } from "@react-three/drei";
 
-export default function Experience() {
+export default function Experience({ mainRef }) {
   return (
     <Canvas
       flat
@@ -17,7 +17,7 @@ export default function Experience() {
         enableRotate={false}
       />
       <ambientLight intensity={3} />
-      <Room />
+      <Room mainRef={mainRef} />
     </Canvas>
   );
 }
