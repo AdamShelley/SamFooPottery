@@ -1,17 +1,18 @@
-import * as THREE from "three";
-import { Center, PivotControls, useGLTF, useTexture } from "@react-three/drei";
+import { Center, useGLTF, useTexture } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Room({ mainRef }) {
-  const { scene, nodes } = useGLTF("./room/model6.glb");
+  const { nodes } = useGLTF("./room/model6.glb");
   const baked = useTexture("./room/texture.png");
   const model = useRef();
   const rotateObjects = useRef();
   const { camera } = useThree();
   gsap.registerPlugin(ScrollTrigger);
+
+  nodes.wheel.geometry.center();
 
   baked.flipY = false;
 
@@ -49,7 +50,7 @@ export default function Room({ mainRef }) {
             trigger: ".header-section",
             start: "top top",
             endTrigger: ".section1",
-            end: "bottom bottom",
+            end: 500,
             // snap: 1,
             scrub: 1.5,
             // markers: true,
@@ -103,8 +104,8 @@ export default function Room({ mainRef }) {
         const tl3 = gsap.timeline({
           scrollTrigger: {
             trigger: ".second-examples",
-            start: "bottom bottom",
-            end: "end end",
+            start: "50%",
+            end: "100%",
             // markers: true,
             duration: 5,
             scrub: 1,
@@ -115,7 +116,7 @@ export default function Room({ mainRef }) {
           .to(
             model.current.position,
             {
-              z: () => 1.5,
+              z: () => 1,
               y: () => 1.5,
               x: () => -1,
               duration: 5,
@@ -125,11 +126,20 @@ export default function Room({ mainRef }) {
           )
           .to(
             model.current.scale,
-            { x: 0.3, y: 0.3, z: 0.3, duration: 5 },
+            { x: 0.2, y: 0.2, z: 0.2, duration: 5 },
             "third"
           )
           .to(camera.position, { x: -2, y: 1, z: 2, duration: 5 }, "third");
+
+        //  Rotate wheel
+        gsap.to(rotateObjects.current.rotation, {
+          y: Math.PI * 4,
+          duration: 5,
+          ease: "linear",
+          repeat: -1,
+        });
       }, mainRef);
+
       return () => {
         return ctx.revert();
       };
@@ -145,18 +155,14 @@ export default function Room({ mainRef }) {
           rotation={[0, Math.PI * -1.25, 0]}
           scale={0.6}
         >
-          {/* <PivotControls
+          <mesh
             ref={rotateObjects}
-            anchor={[0, 0, 0]}
-            // visible={false}
-            rotation={[0, 0, 0]}
-            autoTransform={false}
-          > */}
-          <mesh ref={rotateObjects} geometry={nodes.wheel.geometry}>
+            geometry={nodes.wheel.geometry}
+            position={[0.41, 1.32, -0.6]}
+          >
             <meshBasicMaterial map={baked} />
           </mesh>
 
-          {/* </PivotControls> */}
           <mesh geometry={nodes.baked.geometry}>
             <meshBasicMaterial map={baked} />
           </mesh>

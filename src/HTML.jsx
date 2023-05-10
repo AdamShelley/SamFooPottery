@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "./Navbar";
 
-export default function HTML({ mainRef }) {
-  const [showNav, setShowNav] = useState(true);
+export default function HTML({ mainRef, showHTML }) {
   gsap.registerPlugin(ScrollTrigger);
 
   const titleEl = useRef();
@@ -24,105 +22,89 @@ export default function HTML({ mainRef }) {
     let ctx = gsap.context(() => {
       // Animate title
       const tl1 = gsap.timeline();
-      tl1.set(".header-container h1 .animated-span", { y: 0, yPercent: 200 });
+      tl1.set(".header-container h1 .animated-span", { y: 0, yPercent: 100 });
+      tl1.set(".header-container p .animated-span", { y: 0, yPercent: 50 });
       tl1.to(".header-container h1 .animated-span", {
         yPercent: 0,
         y: 0,
         stagger: 0.1,
         ease: "back.out(1.7)",
+        delay: 1,
       });
+      tl1.to(".header-container p .animated-span", {
+        yPercent: 0,
+        y: 0,
+        stagger: 0.05,
+        ease: "back.out(1)",
+        // delay: 1,
+      });
+
+      const headerHeight =
+        document.querySelector(".header-container").offsetHeight;
 
       // animate title up
       const tl2 = gsap.timeline({
         scrollTrigger: {
-          trigger: ".header-container>h1",
-          start: 100,
+          trigger: ".header-container",
+          start: "top top",
           end: 1000,
-          scrub: 1,
+          scrub: 0.5,
+          pin: true,
           // markers: true,
         },
       });
 
-      gsap.set(".header-container>h1", { transformOrigin: "top top" });
+      gsap.set(".header-container>h1", {
+        transformOrigin: "top top",
+      });
       gsap.set(".header-container>p", { transformOrigin: "top top" });
 
-      tl2
-        .fromTo(
-          ".header-container",
-          {
-            css: {
-              position: "static",
-              height: 0,
-            },
-          },
-          {
-            duration: 1,
-            css: {
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              width: "100%",
-              height: "8vh",
+      tl2.to(
+        ".header-container",
 
-              // backgroundColor: "#f7f0e1",
-              // borderBottom: "1px solid black",
-              boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
-              // display: "flex",
-              // alignItems: "space-between",
-            },
-          },
-          "navbar"
-        )
-        .fromTo(
+        {
+          duration: 1,
+          x: 0,
+          y: 0,
+          top: 0,
+          left: 0,
+          width: "100%",
+          boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+        },
+        "navbar"
+      );
+
+      gsap.set(".header-container", {
+        display: "flex",
+      });
+      gsap.set(".titles", { paddingTop: headerHeight });
+
+      tl2
+        .to(
           ".header-container>h1",
-          {
-            // xPercent: 0,
-            // scale: 1,
-            css: {
-              position: "absolute",
-              top: "10%",
-              left: "20%",
-            },
-          },
+
           {
             xPercent: -33,
+            yPercent: -185,
             scale: 0.2,
             duration: 1,
-            // top: 0,
-            // margin: "2rem",
-            color: "#5d434b",
+            color: "#4A4A4A",
           },
           "navbar"
         )
-        .fromTo(
+        .to(
           ".header-container>p",
           {
-            // scale: 1,
-            css: {
-              position: "absolute",
-              top: "5%",
-              right: "20%",
-            },
-          },
-          {
-            scale: 0.4,
+            scale: 0.5,
+            xPercent: 33,
+            yPercent: -175,
             duration: 1,
             right: 0,
-            // margin: "2rem",
-            // top: 0,
-            // right: 0,
-            // padding: 0,
-            // css: {
-            //   zIndex: 2,
-            //   position: "fixed",
-            //   top: 0,
-            //   right: 0,
-            // },
           },
           "navbar"
-        )
+        );
 
+      tl2
         .fromTo(
           ".header-scroll",
           { opacity: 1 },
@@ -131,38 +113,34 @@ export default function HTML({ mainRef }) {
         )
 
         .paused(true);
-
-      // ScrollTrigger.create({
-      //   start: 50,
-      //   end: 200,
-      //   scrub: 1,
-      //   animation: tl2,
-      //   // toggleClass: { targets: ".titles", className: "navbar-animate" },
-      //   // onEnter: () => {
-      //   //   document.querySelector(".titles").classList.add("navbar-animate");
-      //   // },
-      //   // onLeaveBack: () => {
-      //   //   document.querySelector(".titles").classList.remove("navbar-animate");
-      //   // },
-      // });
     }, mainRef);
     return () => {
       return ctx.revert();
     };
   }, [mainRef]);
 
+  const imageNames = [
+    "4.png",
+    "5.png",
+    "6.png",
+    "7.png",
+    "8.png",
+    "9.png",
+    "10.png",
+  ];
+
   return (
-    <div className="page">
+    <div className={`page ${showHTML && "page-fade"}`}>
       <div className="html-content">
         <section className="header">
           <div className="header-section">
             <div className="titles" ref={titleEl}>
               <div className="header-container">
                 <h1>{addSpans("Samantha Foo")}</h1>
-                <p>Pottery Portfolio</p>
+                <p>{addSpans("Pottery Portfolio")}</p>
               </div>
               <div className="header-scroll">
-                <h3>Scroll down</h3>
+                {/* <h3>Scroll down</h3> */}
                 <span className="down-arrow">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -184,10 +162,12 @@ export default function HTML({ mainRef }) {
 
         <div className="first-move section-margin"></div>
         <section className="section1">
-          <div className="pottery-examples">
-            <h3>About</h3>
-            <div className="example">
+          <div className="about-section-container">
+            <div className="about-section">
+              <h3>About</h3>
               <img src="./pictures/self.jpg" className="img img1" />
+            </div>
+            <div className="about-section-description">
               <p>A potter operating in Singapore.</p>
               <p>
                 Making ceramics with love for over 3 years. Take a look at the
@@ -202,30 +182,13 @@ export default function HTML({ mainRef }) {
 
         <section className="section2">
           <div className="second-examples">
-            <div className="example">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Perferendis, itaque sint quis eveniet illo labore, voluptatibus,
-              iusto ullam facilis obcaecati vero. Fugit consectetur debitis
-              dicta! Dolorem adipisci voluptatem unde vero, id quibusdam natus
-              aliquam porro a quam deserunt molestias dolor similique, modi ea
-              voluptate? Rerum iure provident asperiores eum amet.
-            </div>
-            <div className="example">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Perferendis, itaque sint quis eveniet illo labore, voluptatibus,
-              iusto ullam facilis obcaecati vero. Fugit consectetur debitis
-              dicta! Dolorem adipisci voluptatem unde vero, id quibusdam natus
-              aliquam porro a quam deserunt molestias dolor similique, modi ea
-              voluptate? Rerum iure provident asperiores eum amet.
-            </div>
-            <div className="example">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Perferendis, itaque sint quis eveniet illo labore, voluptatibus,
-              iusto ullam facilis obcaecati vero. Fugit consectetur debitis
-              dicta! Dolorem adipisci voluptatem unde vero, id quibusdam natus
-              aliquam porro a quam deserunt molestias dolor similique, modi ea
-              voluptate? Rerum iure provident asperiores eum amet.
-            </div>
+            {imageNames.map((image) => (
+              <img
+                key={image}
+                className="img-masonry"
+                src={`/pictures/${image}`}
+              ></img>
+            ))}
           </div>
         </section>
         <div className="third-move section-margin"></div>
