@@ -8,7 +8,7 @@ export default function Experience({ mainRef }) {
       flat
       camera={{ fov: 45, near: 0.1, far: 200, position: [2, 3, 10] }}
     >
-      <color args={["#dfdfd9"]} attach="background" />
+      <color args={["#F7F0E1"]} attach="background" />
       <OrbitControls
         makeDefault
         enableDamping
@@ -16,7 +16,6 @@ export default function Experience({ mainRef }) {
         enablePan={false}
         enableRotate={false}
       />
-      <ambientLight intensity={3} />
       <Room mainRef={mainRef} />
     </Canvas>
   );

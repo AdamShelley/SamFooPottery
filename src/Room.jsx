@@ -60,6 +60,7 @@ export default function Room({ mainRef }) {
             model.current.position,
             {
               x: () => 2,
+              y: () => 1,
               duration: 5,
             },
             "same"
@@ -80,8 +81,8 @@ export default function Room({ mainRef }) {
           scrollTrigger: {
             trigger: ".second-move",
             start: "top top",
-            endTrigger: ".section2",
-            end: "bottom bottom",
+            endTrigger: ".second-examples",
+            end: "middle middle",
             // markers: true,
             scrub: 1.5,
           },
@@ -93,10 +94,41 @@ export default function Room({ mainRef }) {
             {
               x: -1,
               duration: 5,
+              ease: "power3.out(1.5)",
             },
             "second"
           )
           .to(camera.position, { x: -2, y: 2, z: 4, duration: 5 }, "second");
+
+        const tl3 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".second-examples",
+            start: "bottom bottom",
+            end: "end end",
+            // markers: true,
+            duration: 5,
+            scrub: 1,
+          },
+        });
+
+        tl3
+          .to(
+            model.current.position,
+            {
+              z: () => 1.5,
+              y: () => 1.5,
+              x: () => -1,
+              duration: 5,
+              ease: "power3.out(1.5)",
+            },
+            "third"
+          )
+          .to(
+            model.current.scale,
+            { x: 0.3, y: 0.3, z: 0.3, duration: 5 },
+            "third"
+          )
+          .to(camera.position, { x: -2, y: 1, z: 2, duration: 5 }, "third");
       }, mainRef);
       return () => {
         return ctx.revert();
@@ -111,7 +143,7 @@ export default function Room({ mainRef }) {
           dispose={null}
           ref={model}
           rotation={[0, Math.PI * -1.25, 0]}
-          scale={0.7}
+          scale={0.6}
         >
           {/* <PivotControls
             ref={rotateObjects}
