@@ -45,6 +45,7 @@ export default function Room({ mainRef }) {
   useEffect(() => {
     if (mainRef) {
       let ctx = gsap.context(() => {
+        let mm = gsap.matchMedia();
         const tl1 = gsap.timeline({
           scrollTrigger: {
             trigger: ".header-section",
@@ -56,27 +57,6 @@ export default function Room({ mainRef }) {
             // markers: true,
           },
         });
-        tl1
-          .to(
-            model.current.position,
-            {
-              x: () => 2,
-              y: () => 1,
-              duration: 5,
-            },
-            "same"
-          )
-          .to(
-            model.current.scale,
-            {
-              x: 0.7,
-              y: 0.7,
-              z: 0.7,
-              ease: "power3.out",
-              duration: 5,
-            },
-            "same"
-          );
 
         const tl2 = gsap.timeline({
           scrollTrigger: {
@@ -87,6 +67,64 @@ export default function Room({ mainRef }) {
             // markers: true,
             scrub: 1.5,
           },
+        });
+
+        const tl3 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".second-examples",
+            start: "50%",
+            end: "100%",
+            // markers: true,
+            duration: 5,
+            scrub: 1,
+          },
+        });
+
+        mm.add("(min-width: 1000px)", () => {
+          tl1
+            .to(
+              model.current.position,
+              {
+                x: 3.5,
+                y: 0,
+                duration: 5,
+              },
+              "same"
+            )
+            .to(
+              model.current.scale,
+              {
+                x: 0.8,
+                y: 0.8,
+                z: 0.8,
+                ease: "power3.out",
+                duration: 5,
+              },
+              "same"
+            );
+        });
+        mm.add("(min-width: 1441px)", () => {
+          tl1
+            .to(
+              model.current.position,
+              {
+                x: () => 2,
+                y: () => 1,
+                duration: 5,
+              },
+              "same"
+            )
+            .to(
+              model.current.scale,
+              {
+                x: 0.7,
+                y: 0.7,
+                z: 0.7,
+                ease: "power3.out",
+                duration: 5,
+              },
+              "same"
+            );
         });
 
         tl2
@@ -100,17 +138,6 @@ export default function Room({ mainRef }) {
             "second"
           )
           .to(camera.position, { x: -2, y: 2, z: 4, duration: 5 }, "second");
-
-        const tl3 = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".second-examples",
-            start: "50%",
-            end: "100%",
-            // markers: true,
-            duration: 5,
-            scrub: 1,
-          },
-        });
 
         tl3
           .to(

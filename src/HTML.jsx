@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function HTML({ mainRef, showHTML }) {
   gsap.registerPlugin(ScrollTrigger);
+  let mm = gsap.matchMedia();
 
   const titleEl = useRef();
 
@@ -34,7 +35,6 @@ export default function HTML({ mainRef, showHTML }) {
       tl1.to(".header-container p .animated-span", {
         yPercent: 0,
         y: 0,
-        stagger: 0.05,
         ease: "back.out(1)",
         // delay: 1,
       });
@@ -43,6 +43,7 @@ export default function HTML({ mainRef, showHTML }) {
         document.querySelector(".header-container").offsetHeight;
 
       // animate title up
+
       const tl2 = gsap.timeline({
         scrollTrigger: {
           trigger: ".header-container",
@@ -79,40 +80,77 @@ export default function HTML({ mainRef, showHTML }) {
       });
       gsap.set(".titles", { paddingTop: headerHeight });
 
-      tl2
-        .to(
-          ".header-container>h1",
+      mm.add("(min-width: 1000px)", () => {
+        tl2
+          .to(
+            ".header-container>h1",
 
-          {
-            xPercent: -33,
-            yPercent: -185,
-            scale: 0.2,
-            duration: 1,
-            color: "#4A4A4A",
-          },
-          "navbar"
-        )
-        .to(
-          ".header-container>p",
-          {
-            scale: 0.5,
-            xPercent: 33,
-            yPercent: -175,
-            duration: 1,
-            right: 0,
-          },
-          "navbar"
-        );
+            {
+              xPercent: -33,
+              yPercent: -175,
+              scale: 0.2,
+              duration: 1,
+              color: "#4A4A4A",
+            },
+            "navbar"
+          )
+          .to(
+            ".header-container>p",
+            {
+              scale: 0.5,
+              xPercent: 33,
+              yPercent: -75,
+              duration: 1,
+              right: 0,
+            },
+            "navbar"
+          );
 
-      tl2
-        .fromTo(
-          ".header-scroll",
-          { opacity: 1 },
-          { opacity: 0, duration: 0.1 },
-          "navbar"
-        )
+        tl2
+          .fromTo(
+            ".header-scroll",
+            { opacity: 1 },
+            { opacity: 0, duration: 0.1 },
+            "navbar"
+          )
+          .paused(true);
+      });
 
-        .paused(true);
+      mm.add("(min-width: 1441px)", () => {
+        tl2
+          .to(
+            ".header-container>h1",
+
+            {
+              xPercent: -33,
+              yPercent: -185,
+              scale: 0.2,
+              duration: 1,
+              color: "#4A4A4A",
+            },
+            "navbar"
+          )
+          .to(
+            ".header-container>p",
+            {
+              scale: 0.5,
+              xPercent: 33,
+              yPercent: -175,
+              duration: 1,
+              right: 0,
+            },
+            "navbar"
+          );
+
+        tl2
+          .fromTo(
+            ".header-scroll",
+            { opacity: 1 },
+            { opacity: 0, duration: 0.1 },
+            "navbar"
+          )
+          .paused(true);
+      });
     }, mainRef);
     return () => {
       return ctx.revert();
@@ -170,7 +208,7 @@ export default function HTML({ mainRef, showHTML }) {
             <div className="about-section-description">
               <p>A potter operating in Singapore.</p>
               <p>
-                Making ceramics with love for over 3 years. Take a look at the
+                Making ceramics with love for over 5 years. Take a look at the
                 examples below and visit my instagram to see more of my work.
               </p>
               <a href="#"> Instagram </a>
