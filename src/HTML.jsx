@@ -6,7 +6,8 @@ export default function HTML({ mainRef, showHTML }) {
   gsap.registerPlugin(ScrollTrigger);
   let mm = gsap.matchMedia();
 
-  const titleEl = useRef();
+  const h1Ref = useRef();
+  const headerRef = useRef();
 
   const addSpans = (note) => {
     return [...note].map((letter, index) => {
@@ -20,11 +21,15 @@ export default function HTML({ mainRef, showHTML }) {
   };
 
   useEffect(() => {
+    // if (headerRef) {
     let ctx = gsap.context(() => {
       // Animate title
       const tl1 = gsap.timeline();
       tl1.set(".header-container h1 .animated-span", { y: 0, yPercent: 100 });
-      tl1.set(".header-container p .animated-span", { y: 0, yPercent: 50 });
+      tl1.set(".header-container p .animated-span", {
+        y: 0,
+        yPercent: 20,
+      });
       tl1.to(".header-container h1 .animated-span", {
         yPercent: 0,
         y: 0,
@@ -39,122 +44,88 @@ export default function HTML({ mainRef, showHTML }) {
         // delay: 1,
       });
 
-      const headerHeight =
-        document.querySelector(".header-container").offsetHeight;
-
-      // animate title up
-
+      // Animate the navbar
       const tl2 = gsap.timeline({
         scrollTrigger: {
-          trigger: ".header-container",
-          start: "top top",
-          end: 1000,
-          scrub: 0.5,
-          pin: true,
+          start: "50",
+          end: "1500",
           // markers: true,
+          scrub: true,
         },
       });
 
       gsap.set(".header-container>h1", {
-        transformOrigin: "top top",
+        top: "10%",
+        left: "30%",
+        position: "fixed",
       });
-      gsap.set(".header-container>p", { transformOrigin: "top top" });
+      gsap.set(".header-container>p", {
+        top: "10%",
+        right: "30%",
+        position: "fixed",
+      });
+
+      tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
 
       tl2.to(
-        ".header-container",
-
+        ".header-container>h1",
         {
-          duration: 1,
-          x: 0,
-          y: 0,
-          top: 0,
-          left: 0,
-          width: "100%",
-          boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          top: "0.5rem",
+          left: "1rem",
+          duration: 2,
+          fontSize: "2rem",
+          position: "fixed",
+          transform: "none",
+        },
+        "navbar"
+      );
+      tl2.to(
+        ".header-container>p",
+        {
+          top: "2rem",
+          right: "1rem",
+          duration: 2,
+          fontSize: "1rem",
+          position: "fixed",
+          transform: "none",
+        },
+        "navbar"
+      );
+      // tl2.to(".header-container", {
+      //   boxShadow:
+      //     "rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px",
+      // });
+
+      tl2.to(
+        ".header-scroll",
+        {
+          opacity: 0,
+          duration: 0.5,
         },
         "navbar"
       );
 
-      gsap.set(".header-container", {
-        display: "flex",
-      });
-      gsap.set(".titles", { paddingTop: headerHeight });
-
-      mm.add("(min-width: 1000px)", () => {
-        tl2
-          .to(
-            ".header-container>h1",
-
-            {
-              xPercent: -33,
-              yPercent: -175,
-              scale: 0.2,
-              duration: 1,
-              color: "#4A4A4A",
-            },
-            "navbar"
-          )
-          .to(
-            ".header-container>p",
-            {
-              scale: 0.5,
-              xPercent: 33,
-              yPercent: -75,
-              duration: 1,
-              right: 0,
-            },
-            "navbar"
-          );
-
-        tl2
-          .fromTo(
-            ".header-scroll",
-            { opacity: 1 },
-            { opacity: 0, duration: 0.1 },
-            "navbar"
-          )
-          .paused(true);
-      });
-
-      mm.add("(min-width: 1441px)", () => {
-        tl2
-          .to(
-            ".header-container>h1",
-
-            {
-              xPercent: -33,
-              yPercent: -185,
-              scale: 0.2,
-              duration: 1,
-              color: "#4A4A4A",
-            },
-            "navbar"
-          )
-          .to(
-            ".header-container>p",
-            {
-              scale: 0.5,
-              xPercent: 33,
-              yPercent: -175,
-              duration: 1,
-              right: 0,
-            },
-            "navbar"
-          );
-
-        tl2
-          .fromTo(
-            ".header-scroll",
-            { opacity: 1 },
-            { opacity: 0, duration: 0.1 },
-            "navbar"
-          )
-          .paused(true);
+      gsap.to(".section2", {
+        xPercent: -100,
+        duration: 10,
+        x: () => window.innerWidth,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".section2",
+          start: "bottom bottom",
+          markers: true,
+          end: () => `+=${window.innerWidth * 3}`,
+          scrub: true,
+          pin: true,
+          invalidateOnRefresh: true,
+        },
       });
     }, mainRef);
+
     return () => {
       return ctx.revert();
     };
+    // }
   }, [mainRef]);
 
   const imageNames = [
@@ -172,13 +143,12 @@ export default function HTML({ mainRef, showHTML }) {
       <div className="html-content">
         <section className="header">
           <div className="header-section">
-            <div className="titles" ref={titleEl}>
-              <div className="header-container">
-                <h1>{addSpans("Samantha Foo")}</h1>
+            <div className="titles">
+              <div className="header-container" ref={headerRef}>
                 <p>{addSpans("Pottery Portfolio")}</p>
+                <h1 ref={h1Ref}>{addSpans("Samantha Foo")}</h1>
               </div>
               <div className="header-scroll">
-                {/* <h3>Scroll down</h3> */}
                 <span className="down-arrow">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -196,20 +166,32 @@ export default function HTML({ mainRef, showHTML }) {
             </div>
           </div>
         </section>
-        {/* {showNav && <Navbar />} */}
 
         <div className="first-move section-margin"></div>
         <section className="section1">
           <div className="about-section-container">
             <div className="about-section">
               <h3>About</h3>
-              <img src="./pictures/self.jpg" className="img img1" />
             </div>
             <div className="about-section-description">
-              <p>A potter operating in Singapore.</p>
+              <img src="./pictures/self.jpg" className="img img1" />
+              <p>Welcome, I'm Samantha Foo.</p>
+
               <p>
-                Making ceramics with love for over 5 years. Take a look at the
-                examples below and visit my instagram to see more of my work.
+                As a dedicated and passionate potter based in Singapore, I've
+                been crafting unique ceramics for over five years. My pieces are
+                made with care, thoughtfulness, and a deep love for the craft.
+              </p>
+              <p>
+                Each of my creations is a reflection of my artistic vision, with
+                the aim of bringing warmth, beauty, and function into your
+                everyday life. I invite you to explore my portfolio, and if
+                something catches your eye, know that my works are available for
+                purchase.
+              </p>
+              <p>
+                To keep up-to-date with my latest pieces, please follow me on
+                Instagram.
               </p>
               <a href="#"> Instagram </a>
             </div>

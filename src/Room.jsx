@@ -1,46 +1,51 @@
 import { Center, useGLTF, useTexture } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { gsap } from "gsap";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function Room({ mainRef }) {
+export default function Room({ mainRef, square1, square2 }) {
   const { nodes } = useGLTF("./room/model6.glb");
   const baked = useTexture("./room/texture.png");
   const model = useRef();
   const rotateObjects = useRef();
-  const { camera } = useThree();
+  const { camera, size, viewport } = useThree();
   gsap.registerPlugin(ScrollTrigger);
 
   nodes.wheel.geometry.center();
 
   baked.flipY = false;
 
-  let lerp = {
-    current: 0,
-    target: 0,
-    ease: 0.1,
-  };
+  let lerp = useMemo(
+    () => ({
+      current: 0,
+      target: 0,
+      ease: 0.1,
+    }),
+    []
+  );
 
   useFrame((state) => {
-    window.addEventListener("mousemove", (e) => {
+    state.camera.updateProjectionMatrix();
+    lerp.current = gsap.utils.interpolate(lerp.current, lerp.target, lerp.ease);
+    model.current.rotation.y = lerp.target + Math.PI;
+  });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
       let rotation =
         ((e.clientX - window.innerWidth / 2) * 2) / window.innerWidth -
         Math.PI * 2;
 
-      lerp.target = rotation * 0.1;
+      lerp.target = rotation * 0.09;
+    };
 
-      state.camera.updateProjectionMatrix();
+    window.addEventListener("mousemove", handleMouseMove);
 
-      lerp.current = gsap.utils.interpolate(
-        lerp.current,
-        lerp.target,
-        lerp.ease
-      );
-
-      model.current.rotation.y = lerp.target + Math.PI;
-    });
-  });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
   useEffect(() => {
     if (mainRef) {
@@ -63,100 +68,101 @@ export default function Room({ mainRef }) {
             trigger: ".second-move",
             start: "top top",
             endTrigger: ".second-examples",
-            end: "middle middle",
+            end: "+=2000px",
             // markers: true,
-            scrub: 1.5,
+            scrub: 0.6,
           },
         });
 
-        const tl3 = gsap.timeline({
+        tl1
+          .to(
+            model.current.position,
+            {
+              x: 2,
+              y: 0,
+              duration: 5,
+            },
+            "same"
+          )
+          .to(
+            model.current.scale,
+            {
+              x: 0.7,
+              y: 0.7,
+              z: 0.7,
+              ease: "power3.out",
+              duration: 5,
+            },
+            "same"
+          );
+
+        const bg1 = gsap.timeline({
           scrollTrigger: {
-            trigger: ".second-examples",
-            start: "50%",
-            end: "100%",
-            // markers: true,
-            duration: 5,
+            trigger: ".header-scroll",
+            start: "20%",
+            endTrigger: ".section1",
+            // end: "+1000px",
             scrub: 1,
           },
         });
 
-        mm.add("(min-width: 1000px)", () => {
-          tl1
-            .to(
-              model.current.position,
-              {
-                x: 3.5,
-                y: 0,
-                duration: 5,
-              },
-              "same"
-            )
-            .to(
-              model.current.scale,
-              {
-                x: 0.8,
-                y: 0.8,
-                z: 0.8,
-                ease: "power3.out",
-                duration: 5,
-              },
-              "same"
-            );
-        });
-        mm.add("(min-width: 1441px)", () => {
-          tl1
-            .to(
-              model.current.position,
-              {
-                x: () => 2,
-                y: () => 1,
-                duration: 5,
-              },
-              "same"
-            )
-            .to(
-              model.current.scale,
-              {
-                x: 0.7,
-                y: 0.7,
-                z: 0.7,
-                ease: "power3.out",
-                duration: 5,
-              },
-              "same"
-            );
-        });
+        bg1.fromTo(
+          square1.current.scale,
+          { x: 0, y: 0, z: 0 },
+          { x: 100, y: 100, z: 100, duration: 10 },
+          "same"
+        );
+        // background
 
         tl2
           .to(
             model.current.position,
             {
-              x: -1,
+              x: -2,
+              y: 2,
               duration: 5,
-              ease: "power3.out(1.5)",
+              ease: "power1",
             },
             "second"
           )
-          .to(camera.position, { x: -2, y: 2, z: 4, duration: 5 }, "second");
-
-        tl3
-          .to(
-            model.current.position,
-            {
-              z: () => 1,
-              y: () => 1.5,
-              x: () => -1,
-              duration: 5,
-              ease: "power3.out(1.5)",
-            },
-            "third"
-          )
           .to(
             model.current.scale,
-            { x: 0.2, y: 0.2, z: 0.2, duration: 5 },
-            "third"
+            {
+              x: 0.4,
+              y: 0.4,
+              z: 0.4,
+              duration: 5,
+              ease: "power1",
+            },
+            "second"
           )
-          .to(camera.position, { x: -2, y: 1, z: 2, duration: 5 }, "third");
+          .to(model.current.position, {
+            x: 0,
+            duration: 20,
+            delay: 5,
+            ease: "power1",
+          })
+          .to(camera.position, { x: 1, y: 4, z: 3, duration: 5 });
+
+        bg1
+          .to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg")
+          .fromTo(
+            square2.current.scale,
+            { x: 0, y: 0, z: 0 },
+            { x: 100, y: 100, z: 100, duration: 5 }
+          );
+
+        // const horizontalTL = gsap.timeline({
+        //   scrollTrigger: {
+        //     trigger: ".section2",
+        //     start: "top top",
+        //     end: "+500px",
+        //     scrub: 0.8,
+        //   },
+        // });
+        // horizontalTL.to(model.current.position, { x: 2, duration: 10 });
+
+        // horizontalTL.to(camera.position, { x: 1, y: 2, z: 10, duration: 5 });
 
         //  Rotate wheel
         gsap.to(rotateObjects.current.rotation, {

@@ -1,16 +1,21 @@
 import { Canvas } from "@react-three/fiber";
 import Room from "./Room";
 import { OrbitControls } from "@react-three/drei";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 
 import Loader from "./Loader";
+import Background from "./Background";
 
 export default function Experience({ mainRef, setShowHTML }) {
   const [loaded, setLoaded] = useState(false);
 
+  const square1 = useRef();
+  const square2 = useRef();
+
   return (
     <>
       <Canvas
+        shadows
         flat
         camera={{ fov: 45, near: 0.1, far: 200, position: [2, 3, 10] }}
       >
@@ -24,7 +29,9 @@ export default function Experience({ mainRef, setShowHTML }) {
               enablePan={false}
               enableRotate={false}
             />
-            <Room mainRef={mainRef} />
+            <Room mainRef={mainRef} square1={square1} square2={square2} />
+            <ambientLight intensity={2} position={[1, 1, 1]} />
+            <Background square1={square1} square2={square2} />
           </>
         </Suspense>
       </Canvas>
