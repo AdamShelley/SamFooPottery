@@ -9,7 +9,7 @@ export default function Room({ mainRef, square1, square2 }) {
   const baked = useTexture("./room/texture.png");
   const model = useRef();
   const rotateObjects = useRef();
-  const { camera, size, viewport } = useThree();
+  const { camera } = useThree();
   gsap.registerPlugin(ScrollTrigger);
 
   nodes.wheel.geometry.center();
@@ -142,7 +142,7 @@ export default function Room({ mainRef, square1, square2 }) {
             delay: 5,
             ease: "power1",
           })
-          .to(camera.position, { x: 1, y: 4, z: 3, duration: 5 });
+          .to(camera.position, { x: 1, y: 4, z: 3, duration: 10 });
 
         bg1
           .to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg")
@@ -152,17 +152,37 @@ export default function Room({ mainRef, square1, square2 }) {
             { x: 100, y: 100, z: 100, duration: 5 }
           );
 
-        // const horizontalTL = gsap.timeline({
-        //   scrollTrigger: {
-        //     trigger: ".section2",
-        //     start: "top top",
-        //     end: "+500px",
-        //     scrub: 0.8,
-        //   },
-        // });
-        // horizontalTL.to(model.current.position, { x: 2, duration: 10 });
-
-        // horizontalTL.to(camera.position, { x: 1, y: 2, z: 10, duration: 5 });
+        const tl3 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".section3",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+            // markers: true,
+          },
+        });
+        tl3
+          .to(camera.position, { x: 2, y: 8, z: 10, duration: 10 }, "small")
+          .to(
+            model.current.scale,
+            {
+              x: 0.4,
+              y: 0.4,
+              z: 0.4,
+              duration: 5,
+            },
+            "small"
+          )
+          .to(
+            model.current.position,
+            {
+              x: 0,
+              y: -2,
+              z: 0,
+              duration: 5,
+            },
+            "small"
+          );
 
         //  Rotate wheel
         gsap.to(rotateObjects.current.rotation, {

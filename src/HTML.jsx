@@ -113,7 +113,7 @@ export default function HTML({ mainRef, showHTML }) {
         scrollTrigger: {
           trigger: ".section2",
           start: "bottom bottom",
-          markers: true,
+          // markers: true,
           end: () => `+=${window.innerWidth * 3}`,
           scrub: true,
           pin: true,
@@ -203,29 +203,21 @@ export default function HTML({ mainRef, showHTML }) {
         <section className="section2">
           <div className="second-examples">
             {imageNames.map((image) => (
-              <img
-                key={image}
-                className="img-masonry"
-                src={`/pictures/${image}`}
-              ></img>
+              <div className="image-container" key={image}>
+                <img className="img-masonry" src={`/pictures/${image}`}></img>
+              </div>
             ))}
           </div>
         </section>
         <div className="third-move section-margin"></div>
         <section className="section3">
           <div className="third-section">
-            <div className="column">
-              <img src="./pictures/1.JPG" className="img img1" />
-            </div>
-            <div className="column">
-              <img src="./pictures/2.JPG" className="img img1" />
-            </div>
-            <div className="column">
-              <img src="./pictures/3.JPG" className="img img1" />
-            </div>
+            <h2>Samantha Foo Pottery</h2>
           </div>
         </section>
-        <footer className="footer"></footer>
+        <footer className="footer">
+          <h4>Thank you for visiting</h4>
+        </footer>
       </div>
     </div>
   );
