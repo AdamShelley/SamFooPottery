@@ -68,7 +68,7 @@ export default function Room({ mainRef, square1, square2 }) {
             trigger: ".second-move",
             start: "top top",
             endTrigger: ".second-examples",
-            end: "+=2000px",
+            end: "+=3000px",
             // markers: true,
             scrub: 0.6,
           },
@@ -120,7 +120,7 @@ export default function Room({ mainRef, square1, square2 }) {
             {
               x: -2,
               y: 2,
-              duration: 5,
+              duration: 10,
               ease: "power1",
             },
             "second"
@@ -131,7 +131,7 @@ export default function Room({ mainRef, square1, square2 }) {
               x: 0.4,
               y: 0.4,
               z: 0.4,
-              duration: 5,
+              duration: 10,
               ease: "power1",
             },
             "second"
@@ -144,13 +144,12 @@ export default function Room({ mainRef, square1, square2 }) {
           })
           .to(camera.position, { x: 1, y: 4, z: 3, duration: 10 });
 
-        bg1
-          .to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg")
-          .fromTo(
-            square2.current.scale,
-            { x: 0, y: 0, z: 0 },
-            { x: 100, y: 100, z: 100, duration: 5 }
-          );
+        bg1.to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg");
+        // .fromTo(
+        //   square2.current.scale,
+        //   { x: 0, y: 0, z: 0 },
+        //   { x: 120, y: 120, z: 120, duration: 5 }
+        // );
 
         const tl3 = gsap.timeline({
           scrollTrigger: {
@@ -163,6 +162,12 @@ export default function Room({ mainRef, square1, square2 }) {
         });
         tl3
           .to(camera.position, { x: 2, y: 8, z: 10, duration: 10 }, "small")
+          .fromTo(
+            square2.current.scale,
+            { x: 0, y: 0, z: 0 },
+            { x: 120, y: 120, z: 120, duration: 1 },
+            "small"
+          )
           .to(
             model.current.scale,
             {

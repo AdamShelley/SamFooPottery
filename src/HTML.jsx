@@ -58,6 +58,7 @@ export default function HTML({ mainRef, showHTML }) {
         top: "10%",
         left: "30%",
         position: "fixed",
+        letterSpacing: "10px",
       });
       gsap.set(".header-container>p", {
         top: "10%",
@@ -65,15 +66,20 @@ export default function HTML({ mainRef, showHTML }) {
         position: "fixed",
       });
 
-      tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
+      mm.add("(min-width: 1000px)", () => {
+        tl2.to(".header-container", { height: "12vh", duration: 2 }, "navbar");
+      });
+      mm.add("(min-width: 1025px)", () => {
+        tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
+      });
 
       tl2.to(
         ".header-container>h1",
         {
-          top: "0.5rem",
-          left: "1rem",
+          top: "1.5rem",
+          left: "4rem",
           duration: 2,
-          fontSize: "2rem",
+          fontSize: "1.5rem",
           position: "fixed",
           transform: "none",
         },
@@ -83,7 +89,7 @@ export default function HTML({ mainRef, showHTML }) {
         ".header-container>p",
         {
           top: "2rem",
-          right: "1rem",
+          right: "4rem",
           duration: 2,
           fontSize: "1rem",
           position: "fixed",
@@ -202,6 +208,9 @@ export default function HTML({ mainRef, showHTML }) {
 
         <section className="section2">
           <div className="second-examples">
+            <div className="examples-header-container">
+              <p>Examples of my work</p>
+            </div>
             {imageNames.map((image) => (
               <div className="image-container" key={image}>
                 <img className="img-masonry" src={`/pictures/${image}`}></img>
@@ -212,11 +221,23 @@ export default function HTML({ mainRef, showHTML }) {
         <div className="third-move section-margin"></div>
         <section className="section3">
           <div className="third-section">
-            <h2>Samantha Foo Pottery</h2>
+            <div className="contact-information">
+              <h2>Samantha Foo Pottery</h2>
+            </div>
           </div>
         </section>
         <footer className="footer">
           <h4>Thank you for visiting</h4>
+          <p>
+            Created by{" "}
+            <a
+              href="https://adamshelley.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              adamshelley.com
+            </a>
+          </p>
         </footer>
       </div>
     </div>
