@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Lenis as ReactLenis } from "@studio-freight/react-lenis";
 
 export default function HTML({ mainRef, showHTML }) {
   gsap.registerPlugin(ScrollTrigger);
@@ -62,7 +63,7 @@ export default function HTML({ mainRef, showHTML }) {
       });
       gsap.set(".header-container>p", {
         top: "10%",
-        right: "30%",
+        right: "20%",
         position: "fixed",
       });
 
@@ -97,10 +98,6 @@ export default function HTML({ mainRef, showHTML }) {
         },
         "navbar"
       );
-      // tl2.to(".header-container", {
-      //   boxShadow:
-      //     "rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px",
-      // });
 
       tl2.to(
         ".header-scroll",
@@ -145,101 +142,108 @@ export default function HTML({ mainRef, showHTML }) {
   ];
 
   return (
-    <div className={`page ${showHTML && "page-fade"}`}>
-      <div className="html-content">
-        <section className="header">
-          <div className="header-section">
-            <div className="titles">
-              <div className="header-container" ref={headerRef}>
-                <p>{addSpans("Pottery Portfolio")}</p>
-                <h1 ref={h1Ref}>{addSpans("Samantha Foo")}</h1>
+    <ReactLenis root>
+      <div className={`page ${showHTML && "page-fade"}`}>
+        <div className="html-content">
+          <section className="header">
+            <div className="header-section">
+              <div className="titles">
+                <div className="header-container" ref={headerRef}>
+                  <p>{addSpans("Pottery Portfolio")}</p>
+                  <h1 ref={h1Ref}>{addSpans("Samantha Foo")}</h1>
+                </div>
+                <div className="header-scroll">
+                  <span className="down-arrow">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="48"
+                      viewBox="0 96 960 960"
+                      width="48"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M480 711 240 471l43-43 197 198 197-197 43 43-240 239Z"
+                      />
+                    </svg>
+                  </span>
+                </div>
               </div>
-              <div className="header-scroll">
-                <span className="down-arrow">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="48"
-                    viewBox="0 96 960 960"
-                    width="48"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M480 711 240 471l43-43 197 198 197-197 43 43-240 239Z"
-                    />
-                  </svg>
-                </span>
+            </div>
+          </section>
+
+          <div className="first-move section-margin"></div>
+          <section className="section1">
+            <div className="about-section-container">
+              <div className="about-section">
+                <div className="shadow-box">
+                  <h3>About</h3>
+                </div>
+              </div>
+              <div className="about-section-description">
+                <img src="./pictures/self.jpg" className="img img1" />
+                <p>Welcome, I'm Samantha Foo.</p>
+
+                <p>
+                  As a dedicated and passionate potter based in Singapore, I've
+                  been crafting unique ceramics for over five years. My pieces
+                  are made with care, thoughtfulness, and a deep love for the
+                  craft.
+                </p>
+                <p>
+                  Each of my creations is a reflection of my artistic vision,
+                  with the aim of bringing warmth, beauty, and function into
+                  your everyday life. I invite you to explore my portfolio, and
+                  if something catches your eye, know that my works are
+                  available for purchase.
+                </p>
+                <p>
+                  To keep up-to-date with my latest pieces, please follow me on
+                  Instagram.
+                </p>
+                <a href="#"> Instagram </a>
+              </div>
+
+              <div className="second-move section-margin"></div>
+            </div>
+          </section>
+
+          <section className="section2">
+            <div className="second-examples">
+              <div className="examples-header-container">
+                <p>My work</p>
+              </div>
+              {imageNames.map((image) => (
+                <div className="image-container" key={image}>
+                  <img className="img-masonry" src={`/pictures/${image}`}></img>
+                </div>
+              ))}
+            </div>
+          </section>
+          <div className="third-move section-margin"></div>
+          <section className="section3">
+            <div className="third-section">
+              <div className="contact-information">
+                <div className="shadow-box">
+                  <h2>Samantha Foo Pottery</h2>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <div className="first-move section-margin"></div>
-        <section className="section1">
-          <div className="about-section-container">
-            <div className="about-section">
-              <h3>About</h3>
-            </div>
-            <div className="about-section-description">
-              <img src="./pictures/self.jpg" className="img img1" />
-              <p>Welcome, I'm Samantha Foo.</p>
-
-              <p>
-                As a dedicated and passionate potter based in Singapore, I've
-                been crafting unique ceramics for over five years. My pieces are
-                made with care, thoughtfulness, and a deep love for the craft.
-              </p>
-              <p>
-                Each of my creations is a reflection of my artistic vision, with
-                the aim of bringing warmth, beauty, and function into your
-                everyday life. I invite you to explore my portfolio, and if
-                something catches your eye, know that my works are available for
-                purchase.
-              </p>
-              <p>
-                To keep up-to-date with my latest pieces, please follow me on
-                Instagram.
-              </p>
-              <a href="#"> Instagram </a>
-            </div>
-
-            <div className="second-move section-margin"></div>
-          </div>
-        </section>
-
-        <section className="section2">
-          <div className="second-examples">
-            <div className="examples-header-container">
-              <p>Examples of my work</p>
-            </div>
-            {imageNames.map((image) => (
-              <div className="image-container" key={image}>
-                <img className="img-masonry" src={`/pictures/${image}`}></img>
-              </div>
-            ))}
-          </div>
-        </section>
-        <div className="third-move section-margin"></div>
-        <section className="section3">
-          <div className="third-section">
-            <div className="contact-information">
-              <h2>Samantha Foo Pottery</h2>
-            </div>
-          </div>
-        </section>
-        <footer className="footer">
-          <h4>Thank you for visiting</h4>
-          <p>
-            Created by{" "}
-            <a
-              href="https://adamshelley.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              adamshelley.com
-            </a>
-          </p>
-        </footer>
+          </section>
+          <footer className="footer">
+            <h4>Thank you for visiting</h4>
+            <p>
+              Created by{" "}
+              <a
+                href="https://adamshelley.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                adamshelley.com
+              </a>
+            </p>
+          </footer>
+        </div>
       </div>
-    </div>
+    </ReactLenis>
   );
 }

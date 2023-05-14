@@ -9,10 +9,11 @@ body {
   padding: 0;
   background-color: #f7f0e1;
   font-family: "Roboto", sans-serif;
+  overflow-x: hidden !important;
 }
 
 .canvas-wrapper {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -36,13 +37,14 @@ canvas {
   font-family: "Roboto", sans-serif;
   opacity: 0;
   transition: all 1s ease-in;
-  /* overflow: hidden; */
 }
 
 .page-fade {
   opacity: 1;
-  overflow: auto;
+  overflow-x: hidden;
 }
+
+
 
 /* PRELOADING */
 .animated-span {
@@ -155,7 +157,8 @@ canvas {
 
 .section1 {
   margin-top: 2rem;
-  height: 150rem;
+  height: 200rem;
+  
 }
 
 .about-section-container {
@@ -172,15 +175,16 @@ canvas {
   justify-content: space-around;
   line-height: 2;
   overflow: hidden;
+  padding-top: 50rem;
 }
 
 .about-section h3 {
-  font-size: 5rem;
+  font-size: 4rem;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 2rem;
-  color: #5c4033;
-  font-family: "Roboto", sans-serif;
+  letter-spacing: 5px;
+  font-weight: 100;
+    color: #10100f;
+  font-family: "Playfair Display", sans-serif;
 }
 
 .about-section-description {
@@ -195,9 +199,11 @@ canvas {
   border-radius: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  margin-bottom: 5rem;
 }
 
 .about-section-description p {
+  margin-top: 2rem;
   margin-top: 1.2rem;
   font-weight: 100;
   text-align: justify;
@@ -205,7 +211,7 @@ canvas {
 }
 
 .about-section-description a {
-  margin-top: 0.5rem 2rem;
+  margin-bottom: 5rem;
   font-size: 1.2rem;
   font-family: inherit;
   border: 1px solid #d8c9ba;
@@ -227,47 +233,46 @@ canvas {
 .section2 {
   margin-top: 80rem;
   height: 40vh;
-  width: 300vw;
+  width: 250%;
   margin-bottom: 1rem;
 }
 
 .second-examples {
-  /* background-color: rgba(41, 31, 43); */
   backdrop-filter: blur(2px);
   border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;  
+  height: 100%;
 }
 
 .examples-header-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color:#2d2424;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 84.5%, 29.8% 85.5%, 9.7% 100%, 9.7% 84.5%, 0% 84.5%);
-  padding: 1rem 2rem;
-  padding-top: 0;
-  border-radius: 2px;
+  border-top: 2px solid #5c4033;
+  border-bottom: 2px solid #5c4033;
+  width: 20rem;
+  filter: drop-shadow(0px 1px 10px #10100f);
 }
 
 .examples-header-container > p {
   font-size: 2rem;
-  font-weight: 900;
-  color: #f7f0e1;
+  color: #2f333f;
+  font-family: "Playfair Display", sans-serif;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 8px;
 }
-
 
 .pin-spacer {
   margin-bottom: 0 !important;
 }
 
-
 .image-container {
   width: 400px;
   height: 400px;
-  margin: 0 .2rem;
+  margin: 0 0.2rem;
 }
 
 .image-container .img-masonry {
@@ -287,21 +292,14 @@ canvas {
   margin-right: 5rem;
 }
 
-
 /* SECTION 3 */
 .section3 {
-  height: 200vh;
+  height: 300vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* background: rgb(41, 31, 43); */
+  z-index: 10;
   backdrop-filter: blur(2px);
-  /* background: linear-gradient(
-    180deg,
-    rgba(41, 31, 43, 1) 8%,
-    rgba(122, 113, 114, 1) 60%,
-    rgba(247, 240, 225, 1) 100%
-  ); */
 }
 
 .third-section {
@@ -312,32 +310,36 @@ canvas {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
   transition: all 0.2s ease;
-  cursor: pointer;
   color: #f7f0e1;
   height: 100%;
-  margin-top: 10rem;
+  margin-top: 20rem;
 }
 
-
 .contact-information {
-  width: 66%;
+  width: 100%;
   height: 100%;
-  background-color: #f7f0e1;
-  
+  /* background-color: #f7f0e1; */
   border-radius: 2px;
-  display: flex;  
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 1rem;
+  
+  background: rgb(247, 240, 225);
+  background: linear-gradient(
+    180deg,
+    rgba(247, 240, 225, 1) 0%,
+    rgba(247, 240, 225, 1) 71%,
+    rgba(247, 240, 225, 0) 100%
+  );
+  padding-top: 20rem;
 }
 .contact-information h2 {
-  margin-top: 10rem;
   font-size: 4rem;
   font-family: "Playfair Display", sans-serif;
   color: #2f333f;
+  text-align: center;
 }
 
 /* FOOTER */
@@ -348,7 +350,7 @@ canvas {
   align-items: center;
   justify-content: flex-end;
   /* background-color: #f7f0e1; */
-  color: #f7f0e1;
+  color: #2f2e2b;
 }
 .footer h4 {
   font-size: 3rem;
@@ -358,12 +360,14 @@ canvas {
 }
 
 .footer a {
-  
   text-decoration: none;
-  color: #f7f0e1;
-  padding: .2rem;
-  border-bottom: 1px solid #f7f0e1;
-  transition: all .2s ease;
+  color: #1b3030;
+  padding: 0.2rem;
+  border-bottom: 1px solid #1b3030;
+  transition: all 0.2s ease;
+  font-weight: 900;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
 }
 
 .footer a:hover {
@@ -391,7 +395,16 @@ canvas {
   font-weight: 900;
 }
 
-
+.shadow-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid #10100f;
+  border-bottom: 2px solid #10100f;
+  width: 30rem;
+  /* height: 50%; */
+  filter: drop-shadow(0px 1px 10px #a0a09b);
+}
 
 @media screen and (max-width: 1440px) {
   /* CSS rules for MacBook sized laptops */
@@ -424,11 +437,11 @@ canvas {
     width: 350px;
     height: 350px;
   }
-  
+
   .third-section h2 {
     font-size: 3rem;
   }
-  
+
   .footer h4 {
     font-size: 2rem;
   }
@@ -469,11 +482,11 @@ canvas {
     width: 250px;
     height: 250px;
   }
-  
+
   .third-section h2 {
     font-size: 2rem;
   }
-  
+
   .footer h4 {
     font-size: 1.2rem;
   }
