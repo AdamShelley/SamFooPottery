@@ -102,7 +102,7 @@ export default function Room({ mainRef, square1, square2 }) {
             start: "20%",
             endTrigger: ".section1",
             // end: "+1000px",
-            scrub: 1,
+            scrub: 0.3,
           },
         });
 
@@ -138,7 +138,10 @@ export default function Room({ mainRef, square1, square2 }) {
           )
 
           .to(model.current.position, { x: 0, ease: "power1", duration: 10 })
-          .to(camera.position, { x: 1, y: 4, z: 6, duration: 10 });
+          .to(camera.position, { x: 1, y: 8, z: 8, duration: 10, delay: 10 })
+          .to(camera, { zoom: 1.5, duration: 10 });
+
+        console.log(camera);
 
         bg1.to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg");
         // .fromTo(
@@ -158,12 +161,7 @@ export default function Room({ mainRef, square1, square2 }) {
         });
         tl3
           .to(camera.position, { x: 2, y: 8, z: 10, duration: 5 }, "small")
-          // .fromTo(
-          //   square2.current.scale,
-          //   { x: 0, y: 0, z: 0 },
-          //   { x: 120, y: 120, z: 120, duration: 5 },
-          //   "small"
-          // )
+          .to(camera, { zoom: 1, duration: 5 })
           .to(
             model.current.scale,
             {

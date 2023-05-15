@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Lenis as ReactLenis } from "@studio-freight/react-lenis";
@@ -6,9 +6,12 @@ import { Lenis as ReactLenis } from "@studio-freight/react-lenis";
 export default function HTML({ mainRef, showHTML }) {
   gsap.registerPlugin(ScrollTrigger);
   let mm = gsap.matchMedia();
-
+  const containerRef = useRef(null);
+  const imageRefs = useRef([]);
   const h1Ref = useRef();
   const headerRef = useRef();
+  const triggers = useRef([]);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
 
   const addSpans = (note) => {
     return [...note].map((letter, index) => {
@@ -49,22 +52,26 @@ export default function HTML({ mainRef, showHTML }) {
       const tl2 = gsap.timeline({
         scrollTrigger: {
           start: "50",
-          end: "1500",
-          // markers: true,
-          scrub: true,
+          end: () => window.innerHeight * 2,
+          scrub: 0.6,
         },
       });
 
+      gsap.set(".header-container", {
+        height: "25vh",
+      });
       gsap.set(".header-container>h1", {
-        top: "10%",
-        left: "30%",
-        position: "fixed",
+        top: "10rem",
+        left: "25rem",
+        // position: "fixed",
         letterSpacing: "10px",
+        fontSize: "6rem",
       });
       gsap.set(".header-container>p", {
-        top: "10%",
-        right: "20%",
-        position: "fixed",
+        top: "10rem",
+        right: "25rem",
+        fontSize: "2.5rem",
+        // position: "fixed",
       });
 
       mm.add("(min-width: 1000px)", () => {
@@ -81,8 +88,8 @@ export default function HTML({ mainRef, showHTML }) {
           left: "4rem",
           duration: 2,
           fontSize: "1.5rem",
-          position: "fixed",
-          transform: "none",
+          // position: "fixed",
+          // transform: "none",
         },
         "navbar"
       );
@@ -93,8 +100,8 @@ export default function HTML({ mainRef, showHTML }) {
           right: "4rem",
           duration: 2,
           fontSize: "1rem",
-          position: "fixed",
-          transform: "none",
+          // position: "fixed",
+          // transform: "none",
         },
         "navbar"
       );
@@ -123,23 +130,18 @@ export default function HTML({ mainRef, showHTML }) {
           invalidateOnRefresh: true,
         },
       });
+
+      // Animate images when in the middle of the viewport
+      // thanks chatGPT for calculation help
     }, mainRef);
 
     return () => {
       return ctx.revert();
     };
     // }
-  }, [mainRef]);
+  }, [mainRef, imagesLoaded]);
 
-  const imageNames = [
-    "4.png",
-    "5.png",
-    "6.png",
-    "7.png",
-    "8.png",
-    "9.png",
-    "10.png",
-  ];
+  const imageNames = ["4.png", "5.png", "6.png", "7.png", "8.png", "9.png"];
 
   return (
     <ReactLenis root>
@@ -208,13 +210,21 @@ export default function HTML({ mainRef, showHTML }) {
           </section>
 
           <section className="section2">
-            <div className="second-examples">
+            <div className="second-examples" ref={containerRef}>
               <div className="examples-header-container">
                 <p>My work</p>
               </div>
-              {imageNames.map((image) => (
-                <div className="image-container" key={image}>
-                  <img className="img-masonry" src={`/pictures/${image}`}></img>
+              {imageNames.map((image, index) => (
+                <div
+                  className="image-container"
+                  key={image}
+                  ref={(el) => (imageRefs.current[index] = el)}
+                >
+                  <img
+                    className="img-masonry"
+                    src={`/pictures/${image}`}
+                    onLoad={() => setImagesLoaded((prev) => prev + 1)}
+                  />
                 </div>
               ))}
             </div>
@@ -225,6 +235,18 @@ export default function HTML({ mainRef, showHTML }) {
               <div className="contact-information">
                 <div className="shadow-box">
                   <h2>Samantha Foo Pottery</h2>
+                </div>
+                <div className="column-container">
+                  {Array.from({ length: 3 }, (_, i) => (
+                    <div key={i} className="contact-columns">
+                      <img src={"/pictures/column1.png"} alt="description" />
+                      <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Vestibulum at orci augue. Quisque euismod mi in purus
+                        sollicitudin, eget sagittis sapien pretium.
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
