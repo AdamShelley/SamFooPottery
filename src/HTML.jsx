@@ -62,15 +62,15 @@ export default function HTML({ mainRef, showHTML }) {
       mm.add("(min-width: 350px)", () => {
         tl2.to(".header-container", { height: "10vh", duration: 2 }, "navbar");
         gsap.set(".header-container>h1", {
-          top: "5rem",
-          left: "2rem",
+          top: "13rem",
+          left: "3rem",
           letterSpacing: "4px",
           fontSize: "2.5rem",
           whiteSpace: "nowrap",
         });
         gsap.set(".header-container>p", {
-          top: "3rem",
-          right: "2em",
+          top: "12rem",
+          right: "4rem",
           fontSize: "1.0rem",
         });
 
@@ -276,11 +276,7 @@ export default function HTML({ mainRef, showHTML }) {
                   key={image}
                   ref={(el) => (imageRefs.current[index] = el)}
                 >
-                  <img
-                    className="img-masonry"
-                    src={`/pictures/${image}`}
-                    onLoad={() => setImagesLoaded((prev) => prev + 1)}
-                  />
+                  <img className="img-masonry" src={`/pictures/${image}`} />
                 </div>
               ))}
             </div>

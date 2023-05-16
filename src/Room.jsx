@@ -25,10 +25,15 @@ export default function Room({ mainRef, square1, square2 }) {
     []
   );
 
-  useFrame((state) => {
-    state.camera.updateProjectionMatrix();
-    lerp.current = gsap.utils.interpolate(lerp.current, lerp.target, lerp.ease);
-    model.current.rotation.y = lerp.target + Math.PI;
+  useFrame(() => {
+    if (window.innerWidth > 1000) {
+      lerp.current = gsap.utils.interpolate(
+        lerp.current,
+        lerp.target,
+        lerp.ease
+      );
+      model.current.rotation.y = lerp.target + Math.PI;
+    }
   });
 
   useEffect(() => {
@@ -77,7 +82,6 @@ export default function Room({ mainRef, square1, square2 }) {
             trigger: ".header-scroll",
             start: "20%",
             endTrigger: ".section1",
-            // end: "+1000px",
             scrub: 0.3,
           },
         });
@@ -189,11 +193,6 @@ export default function Room({ mainRef, square1, square2 }) {
         });
 
         bg1.to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg");
-        // .fromTo(
-        //   square2.current.scale,
-        //   { x: 0, y: 0, z: 0 },
-        //   { x: 120, y: 120, z: 120, duration: 5 }
-        // );
 
         const tl3 = gsap.timeline({
           scrollTrigger: {
@@ -201,7 +200,6 @@ export default function Room({ mainRef, square1, square2 }) {
             start: "top top",
             end: "bottom bottom",
             scrub: true,
-            // markers: true,
           },
         });
         tl3
@@ -249,7 +247,7 @@ export default function Room({ mainRef, square1, square2 }) {
         <group
           dispose={null}
           ref={model}
-          rotation={[0, Math.PI * -1.25, 0]}
+          rotation={[0, Math.PI * -1.19, 0]}
           scale={0.6}
         >
           <mesh

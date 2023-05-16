@@ -473,8 +473,6 @@ canvas {
 }
 
 @media screen and (max-width: 1440px) {
-  /* CSS rules for MacBook sized laptops */
-  /* Adjust the values as needed for better MacBook view */
   .header-container > h1 {
     font-size: 4rem;
   }
@@ -518,8 +516,7 @@ canvas {
 }
 
 @media screen and (max-width: 480px) {
-  /* CSS rules for mobile devices */
-  /* Adjust the values as needed for better mobile view */
+  
 
   .header-scroll {
     font-size: 1.5rem;
@@ -597,4 +594,8 @@ canvas {
   .loader-container h2 {
     font-size: 0.7rem;
   }
+}
+
+@media screen and (max-width: 350px) {
+
 }
