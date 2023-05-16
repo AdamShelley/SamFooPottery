@@ -20,7 +20,7 @@ export default function Room({ mainRef, square1, square2 }) {
     () => ({
       current: 0,
       target: 0,
-      ease: 0.1,
+      ease: 0.5,
     }),
     []
   );
@@ -51,15 +51,14 @@ export default function Room({ mainRef, square1, square2 }) {
     if (mainRef) {
       let ctx = gsap.context(() => {
         let mm = gsap.matchMedia();
+
         const tl1 = gsap.timeline({
           scrollTrigger: {
             trigger: ".header-section",
             start: "top top",
             endTrigger: ".section1",
             end: 500,
-            // snap: 1,
             scrub: 1.5,
-            // markers: true,
           },
         });
 
@@ -69,32 +68,9 @@ export default function Room({ mainRef, square1, square2 }) {
             start: "top top",
             endTrigger: ".second-examples",
             end: "+=3000px",
-            // markers: true,
             scrub: 0.6,
           },
         });
-
-        tl1
-          .to(
-            model.current.position,
-            {
-              x: 2,
-              y: 0,
-              duration: 5,
-            },
-            "same"
-          )
-          .to(
-            model.current.scale,
-            {
-              x: 0.7,
-              y: 0.7,
-              z: 0.7,
-              ease: "power3.out",
-              duration: 5,
-            },
-            "same"
-          );
 
         const bg1 = gsap.timeline({
           scrollTrigger: {
@@ -114,34 +90,103 @@ export default function Room({ mainRef, square1, square2 }) {
         );
         // background
 
-        tl2
-          .to(
-            model.current.position,
-            {
-              x: -2,
-              y: 2,
-              duration: 10,
-              ease: "power1",
-            },
-            "second"
-          )
-          .to(
-            model.current.scale,
-            {
-              x: 0.6,
-              y: 0.6,
-              z: 0.6,
-              duration: 10,
-              ease: "power1",
-            },
-            "second"
-          )
+        mm.add("(min-width: 350px)", () => {
+          gsap.set(model.current.scale, {
+            x: 0.4,
+            y: 0.4,
+            z: 0.4,
+            duration: 10,
+            ease: "power1",
+          });
 
-          .to(model.current.position, { x: 0, ease: "power1", duration: 10 })
-          .to(camera.position, { x: 1, y: 8, z: 8, duration: 10, delay: 10 })
-          .to(camera, { zoom: 1.5, duration: 10 });
+          tl2
+            .to(
+              model.current.position,
+              {
+                x: 0,
+                y: 2,
+                duration: 10,
+                ease: "power1",
+              },
+              "second"
+            )
 
-        console.log(camera);
+            .to(
+              model.current.scale,
+              {
+                x: 0.4,
+                y: 0.4,
+                z: 0.4,
+                duration: 10,
+                ease: "power1",
+              },
+              "second"
+            )
+
+            .to(model.current.position, { x: 0, ease: "power1", duration: 10 })
+            .to(camera.position, { x: 1, y: 8, z: 8, duration: 10, delay: 10 })
+            .to(camera, { zoom: 1.5, duration: 10 });
+        });
+
+        mm.add("(min-width: 1000px)", () => {
+          gsap.set(model.current.scale, {
+            x: 0.6,
+            y: 0.6,
+            z: 0.6,
+            duration: 10,
+            ease: "power1",
+          });
+
+          tl1
+            .to(
+              model.current.position,
+              {
+                x: 2,
+                y: 0,
+                duration: 5,
+              },
+              "same"
+            )
+            .to(
+              model.current.scale,
+              {
+                x: 0.7,
+                y: 0.7,
+                z: 0.7,
+                ease: "power3.out",
+                duration: 5,
+              },
+              "same"
+            );
+
+          tl2
+            .to(
+              model.current.position,
+              {
+                x: -2,
+                y: 2,
+                duration: 10,
+                ease: "power1",
+              },
+              "second"
+            )
+
+            .to(
+              model.current.scale,
+              {
+                x: 0.6,
+                y: 0.6,
+                z: 0.6,
+                duration: 10,
+                ease: "power1",
+              },
+              "second"
+            )
+
+            .to(model.current.position, { x: 0, ease: "power1", duration: 10 })
+            .to(camera.position, { x: 1, y: 8, z: 8, duration: 10, delay: 10 })
+            .to(camera, { zoom: 1.5, duration: 10 });
+        });
 
         bg1.to(square1.current.scale, { x: 0, y: 0, z: 0, duration: 3 }, "bg");
         // .fromTo(

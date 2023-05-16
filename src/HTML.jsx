@@ -10,8 +10,6 @@ export default function HTML({ mainRef, showHTML }) {
   const imageRefs = useRef([]);
   const h1Ref = useRef();
   const headerRef = useRef();
-  const triggers = useRef([]);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
 
   const addSpans = (note) => {
     return [...note].map((letter, index) => {
@@ -60,51 +58,83 @@ export default function HTML({ mainRef, showHTML }) {
       gsap.set(".header-container", {
         height: "25vh",
       });
-      gsap.set(".header-container>h1", {
-        top: "10rem",
-        left: "25rem",
-        // position: "fixed",
-        letterSpacing: "10px",
-        fontSize: "6rem",
-      });
-      gsap.set(".header-container>p", {
-        top: "10rem",
-        right: "25rem",
-        fontSize: "2.5rem",
-        // position: "fixed",
+
+      mm.add("(min-width: 350px)", () => {
+        tl2.to(".header-container", { height: "10vh", duration: 2 }, "navbar");
+        gsap.set(".header-container>h1", {
+          top: "5rem",
+          left: "2rem",
+          letterSpacing: "4px",
+          fontSize: "2.5rem",
+          whiteSpace: "nowrap",
+        });
+        gsap.set(".header-container>p", {
+          top: "3rem",
+          right: "2em",
+          fontSize: "1.0rem",
+        });
+
+        tl2.to(
+          ".header-container>h1",
+          {
+            top: "1.5rem",
+            left: "2rem",
+            duration: 2,
+            fontSize: "1rem",
+          },
+          "navbar"
+        );
+        tl2.to(
+          ".header-container>p",
+          {
+            top: "1.5rem",
+            right: "2rem",
+            duration: 2,
+            fontSize: "0.9rem",
+          },
+          "navbar"
+        );
       });
 
       mm.add("(min-width: 1000px)", () => {
         tl2.to(".header-container", { height: "12vh", duration: 2 }, "navbar");
+
+        gsap.set(".header-container>h1", {
+          top: "10rem",
+          left: "25rem",
+          letterSpacing: "7px",
+          fontSize: "6rem",
+        });
+        gsap.set(".header-container>p", {
+          top: "10rem",
+          right: "25rem",
+          fontSize: "2.5rem",
+        });
+
+        tl2.to(
+          ".header-container>h1",
+          {
+            top: "1.5rem",
+            left: "4rem",
+            duration: 2,
+            fontSize: "1.5rem",
+          },
+          "navbar"
+        );
+        tl2.to(
+          ".header-container>p",
+          {
+            top: "2rem",
+            right: "4rem",
+            duration: 2,
+            fontSize: "1rem",
+          },
+          "navbar"
+        );
       });
       mm.add("(min-width: 1025px)", () => {
         tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
       });
-
-      tl2.to(
-        ".header-container>h1",
-        {
-          top: "1.5rem",
-          left: "4rem",
-          duration: 2,
-          fontSize: "1.5rem",
-          // position: "fixed",
-          // transform: "none",
-        },
-        "navbar"
-      );
-      tl2.to(
-        ".header-container>p",
-        {
-          top: "2rem",
-          right: "4rem",
-          duration: 2,
-          fontSize: "1rem",
-          // position: "fixed",
-          // transform: "none",
-        },
-        "navbar"
-      );
 
       tl2.to(
         ".header-scroll",
@@ -117,7 +147,7 @@ export default function HTML({ mainRef, showHTML }) {
 
       gsap.to(".section2", {
         xPercent: -100,
-        duration: 10,
+        duration: 5,
         x: () => window.innerWidth,
         ease: "none",
         scrollTrigger: {
@@ -131,15 +161,41 @@ export default function HTML({ mainRef, showHTML }) {
         },
       });
 
-      // Animate images when in the middle of the viewport
-      // thanks chatGPT for calculation help
+      // Animate images up on horizontal scroll
+      imageRefs.current.forEach((image) => {
+        const imageCenter = image.offsetLeft + image.offsetWidth / 2;
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: image,
+              start: () => `${imageCenter - window.innerWidth} center`,
+              end: () => `${imageCenter + window.innerWidth} center`,
+              scrub: true,
+            },
+          })
+          .fromTo(image, { opacity: 0.6 }, { opacity: 1, duration: 1 });
+      });
+
+      //  fade out animation
+      gsap.to(".image-container", {
+        opacity: 0,
+        duration: 0.5,
+        scrollTrigger: {
+          trigger: ".section3",
+          start: "top center",
+          end: "center top",
+          toggleActions: "restart none none none",
+          // scrub: true,
+        },
+      });
     }, mainRef);
 
     return () => {
       return ctx.revert();
     };
     // }
-  }, [mainRef, imagesLoaded]);
+  }, [mainRef]);
 
   const imageNames = ["4.png", "5.png", "6.png", "7.png", "8.png", "9.png"];
 
@@ -237,17 +293,20 @@ export default function HTML({ mainRef, showHTML }) {
                   <h2>Samantha Foo Pottery</h2>
                 </div>
                 <div className="column-container">
-                  {Array.from({ length: 3 }, (_, i) => (
-                    <div key={i} className="contact-columns">
-                      <img src={"/pictures/column1.png"} alt="description" />
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Vestibulum at orci augue. Quisque euismod mi in purus
-                        sollicitudin, eget sagittis sapien pretium.
-                      </p>
-                    </div>
-                  ))}
+                  <div className="big-image-container">
+                    <img src={"/pictures/column2.JPG"} alt="description" />
+                    <p>Creating art that blends beauty and functionality.</p>
+                  </div>
+                  <div className="medium-image-container">
+                    <img src={"/pictures/column1.png"} alt="description" />
+                    <p>Bringing clay to life, one masterpiece at a time.</p>
+                  </div>
+                  <div className="medium-image-container">
+                    <img src={"/pictures/column3.JPG"} alt="description" />
+                    <p>Transforming clay into expressions of inspiration.</p>
+                  </div>
                 </div>
+                <span>Follow me on instagram for more ceramics!</span>
               </div>
             </div>
           </section>
