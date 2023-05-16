@@ -51,7 +51,7 @@ export default function HTML({ mainRef, showHTML }) {
         scrollTrigger: {
           start: "50",
           end: () => window.innerHeight * 2,
-          scrub: 0.6,
+          scrub: 0.3,
         },
       });
 
@@ -62,14 +62,15 @@ export default function HTML({ mainRef, showHTML }) {
       mm.add("(min-width: 350px)", () => {
         tl2.to(".header-container", { height: "10vh", duration: 2 }, "navbar");
         gsap.set(".header-container>h1", {
-          top: "13rem",
+          top: "10rem",
           left: "3rem",
           letterSpacing: "4px",
           fontSize: "2.5rem",
           whiteSpace: "nowrap",
+          willChange: "transform",
         });
         gsap.set(".header-container>p", {
-          top: "12rem",
+          top: "9rem",
           right: "4rem",
           fontSize: "1.0rem",
         });
@@ -258,7 +259,13 @@ export default function HTML({ mainRef, showHTML }) {
                   To keep up-to-date with my latest pieces, please follow me on
                   Instagram.
                 </p>
-                <a href="#"> Instagram </a>
+                <a
+                  href="https://www.instagram.com/samfoopottery/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram{" "}
+                </a>
               </div>
 
               <div className="second-move section-margin"></div>
