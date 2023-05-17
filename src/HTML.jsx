@@ -132,6 +132,22 @@ export default function HTML({ mainRef, showHTML }) {
           },
           "navbar"
         );
+
+        // Animate images up on horizontal scroll
+        imageRefs.current.forEach((image) => {
+          const imageCenter = image.offsetLeft + image.offsetWidth / 2;
+
+          gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: image,
+                start: () => `${imageCenter - window.innerWidth} center`,
+                end: () => `${imageCenter + window.innerWidth} center`,
+                scrub: true,
+              },
+            })
+            .fromTo(image, { opacity: 0.7 }, { opacity: 1, duration: 1 });
+        });
       });
       mm.add("(min-width: 1025px)", () => {
         tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
@@ -160,22 +176,6 @@ export default function HTML({ mainRef, showHTML }) {
           pin: true,
           invalidateOnRefresh: true,
         },
-      });
-
-      // Animate images up on horizontal scroll
-      imageRefs.current.forEach((image) => {
-        const imageCenter = image.offsetLeft + image.offsetWidth / 2;
-
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: image,
-              start: () => `${imageCenter - window.innerWidth} center`,
-              end: () => `${imageCenter + window.innerWidth} center`,
-              scrub: true,
-            },
-          })
-          .fromTo(image, { opacity: 0.6 }, { opacity: 1, duration: 1 });
       });
 
       //  fade out animation
@@ -264,7 +264,7 @@ export default function HTML({ mainRef, showHTML }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Instagram{" "}
+                  Instagram
                 </a>
               </div>
 
@@ -310,6 +310,15 @@ export default function HTML({ mainRef, showHTML }) {
                   </div>
                 </div>
                 <span>Follow me on instagram for more ceramics!</span>
+                <div className="instagram-link">
+                  <a
+                    href="https://www.instagram.com/samfoopottery/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Instagram
+                  </a>
+                </div>
               </div>
             </div>
           </section>
