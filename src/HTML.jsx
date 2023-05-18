@@ -97,17 +97,50 @@ export default function HTML({ mainRef, showHTML }) {
         );
       });
 
-      mm.add("(min-width: 1000px)", () => {
-        tl2.to(".header-container", { height: "12vh", duration: 2 }, "navbar");
+      mm.add("(min-width: 767px)", () => {
+        gsap.set(".header-container>h1", {
+          top: "15rem",
+          left: "10rem",
+          letterSpacing: "4px",
+          fontSize: "4rem",
+          whiteSpace: "nowrap",
+          willChange: "transform",
+        });
+        gsap.set(".header-container>p", {
+          top: "15rem",
+          right: "10rem",
+          fontSize: "1.5rem",
+        });
+      });
+
+      mm.add("(min-width: 1023px)", () => {
+        gsap.set(".header-container>h1", {
+          top: "8rem",
+          left: "15rem",
+          letterSpacing: "4px",
+          fontSize: "5rem",
+          whiteSpace: "nowrap",
+          willChange: "transform",
+        });
+        gsap.set(".header-container>p", {
+          top: "8rem",
+          right: "15rem",
+          fontSize: "2rem",
+        });
+      });
+
+      mm.add("(min-width: 1025px)", () => {
+        tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
+        // tl2.to(".header-container", { height: "12vh", duration: 2 }, "navbar");
 
         gsap.set(".header-container>h1", {
-          top: "10rem",
+          top: "8rem",
           left: "25rem",
           letterSpacing: "7px",
           fontSize: "6rem",
         });
         gsap.set(".header-container>p", {
-          top: "10rem",
+          top: "8rem",
           right: "25rem",
           fontSize: "2.5rem",
         });
@@ -149,8 +182,18 @@ export default function HTML({ mainRef, showHTML }) {
             .fromTo(image, { opacity: 0.7 }, { opacity: 1, duration: 1 });
         });
       });
-      mm.add("(min-width: 1025px)", () => {
-        tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
+      mm.add("(min-width: 2560px)", () => {
+        gsap.set(".header-container>h1", {
+          top: "10rem",
+          left: "45rem",
+          letterSpacing: "7px",
+          fontSize: "10rem",
+        });
+        gsap.set(".header-container>p", {
+          top: "15rem",
+          right: "45rem",
+          fontSize: "2.5rem",
+        });
       });
 
       tl2.to(
@@ -178,6 +221,10 @@ export default function HTML({ mainRef, showHTML }) {
         },
       });
 
+      gsap.set(".image-container", {
+        opacity: 1,
+      });
+
       //  fade out animation
       gsap.to(".image-container", {
         opacity: 0,
@@ -186,7 +233,7 @@ export default function HTML({ mainRef, showHTML }) {
           trigger: ".section3",
           start: "top center",
           end: "center top",
-          toggleActions: "restart none none none",
+          toggleActions: "restart none none reverse",
           // scrub: true,
         },
       });

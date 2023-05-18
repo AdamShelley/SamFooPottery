@@ -493,6 +493,13 @@ canvas {
   filter: drop-shadow(0px 1px 10px #a0a09b);
 }
 
+@media screen and (min-width: 2560px) {
+  .html-content {
+    width: 50%;
+    margin: auto;
+  }
+}
+
 @media screen and (max-width: 1440px) {
   .header-container > h1 {
     font-size: 4rem;
@@ -536,6 +543,26 @@ canvas {
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .about-section-container{
+    padding: 2rem;
+  }
+  .about-section {
+    .shadow-box {
+      width: 100%;
+    }
+  }
+  .about-section-description {
+    width: 100%;
+  }
+
+  .section2 {
+    margin-top: 80rem;
+    height: 40vh;
+    width: 400%;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .header-scroll {
     font-size: 1.5rem;
@@ -559,8 +586,9 @@ canvas {
 
   .about-section-description p {
     font-size: 0.9rem;
-    font-weight: 100;
-    color: #1a1a1a;
+    font-weight: 500;
+    color: #413a3a;
+
     line-height: 1.8;
   }
 

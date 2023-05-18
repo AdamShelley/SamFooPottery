@@ -94,6 +94,39 @@ export default function Room({ mainRef, square1, square2 }) {
         );
         // background
 
+        mm.add("(min-width: 767px)", () => {
+          gsap.set(model.current.scale, {
+            x: 0.5,
+            y: 0.5,
+            z: 0.5,
+            ease: "power1",
+          });
+
+          tl1
+            .to(
+              model.current.position,
+              {
+                x: 1.5,
+                y: 0,
+                duration: 5,
+                ease: "power1",
+              },
+              "second"
+            )
+
+            .to(
+              model.current.scale,
+              {
+                x: 0.4,
+                y: 0.4,
+                z: 0.4,
+                duration: 1,
+                ease: "power1",
+              },
+              "second"
+            );
+        });
+
         mm.add("(min-width: 350px)", () => {
           gsap.set(model.current.scale, {
             x: 0.4,
