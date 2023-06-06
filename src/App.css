@@ -341,7 +341,7 @@ canvas {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   grid-gap: 20px;
-  width: 80%;
+  width: 70%;
   margin: auto;
   margin-bottom: 10rem;
 }
@@ -438,8 +438,10 @@ canvas {
   /* background-color: #f7f0e1; */
   color: #2f2e2b;
   padding-bottom: 2rem;
+  margin-top: 10rem;
 }
 .footer h4 {
+  margin-top: 1rem;
   font-size: 3rem;
   text-align: center;
   font-weight: 200;
@@ -455,6 +457,7 @@ canvas {
   font-weight: 900;
   font-size: 1.1rem;
   margin-bottom: 2rem;
+  
 }
 
 .footer a:hover {
@@ -493,10 +496,17 @@ canvas {
   filter: drop-shadow(0px 1px 10px #a0a09b);
 }
 
+.no-scroll {
+  overflow: hidden !important;
+}
+
 @media screen and (min-width: 2560px) {
   .html-content {
     width: 50%;
     margin: auto;
+  }
+  .footer {
+    margin-top: 10rem;
   }
 }
 
@@ -541,6 +551,9 @@ canvas {
   .loader-container h2 {
     font-size: 1rem;
   }
+
+ 
+  
 }
 
 @media screen and (max-width: 1024px) {
