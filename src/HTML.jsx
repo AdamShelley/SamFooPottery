@@ -166,6 +166,44 @@ export default function HTML({ mainRef, showHTML }) {
           "navbar"
         );
 
+        mm.add("(min-width: 1439px)", () => {
+          tl2.to(".header-container", { height: "8vh", duration: 2 }, "navbar");
+          // tl2.to(".header-container", { height: "12vh", duration: 2 }, "navbar");
+
+          gsap.set(".header-container>h1", {
+            top: "8rem",
+            left: "25rem",
+            letterSpacing: "7px",
+            fontSize: "6rem",
+          });
+          gsap.set(".header-container>p", {
+            top: "8rem",
+            right: "25rem",
+            fontSize: "2.5rem",
+          });
+
+          tl2.to(
+            ".header-container>h1",
+            {
+              top: "0rem",
+              left: "4rem",
+              duration: 2,
+              fontSize: "1.5rem",
+            },
+            "navbar"
+          );
+          tl2.to(
+            ".header-container>p",
+            {
+              top: "0.5rem",
+              right: "4rem",
+              duration: 2,
+              fontSize: "1rem",
+            },
+            "navbar"
+          );
+        });
+
         // Animate images up on horizontal scroll
         imageRefs.current.forEach((image) => {
           const imageCenter = image.offsetLeft + image.offsetWidth / 2;
